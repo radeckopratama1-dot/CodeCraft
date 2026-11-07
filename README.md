@@ -1,58 +1,121 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# CodeCraft ⚡ 
+### Web-Based Interactive Coding & Computer Network Lab for Junior High Students (SMP)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+CodeCraft is an interactive educational web platform engineered for junior high school students (SMP) to learn basic programming logic and computer networking concepts (TCP/IP, routing, and packets). Built with **Laravel**, **MySQL (XAMPP)**, **Tailwind CSS**, and **Alpine.js**, it features a 1:1 playful editorial/bento design interface inspired by modern creative learning standards.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🎨 Color Palette & Design Identity
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Editorial Cream (Background):** `#F4F3EF`
+- **Electric Royal Blue (Primary Brand):** `#312ECB`
+- **Neon Lime / Chartreuse (Accent & CTAs):** `#D4FF33`
+- **Charcoal Matte (Typography & Dark Contrast):** `#1E1E1E`
+- **Typography:** *Plus Jakarta Sans* & *Space Grotesk*
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 🌟 Key Features
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. **Gamified Real-Time Experience (MySQL-Backed):**
+   - Floating live badge on the navbar tracking student XP, Level (auto-calculated per 300 XP), and Daily Streak.
+   - Asynchronous AJAX updates (`fetch` to `/lab/complete`) without page reloads.
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+2. **1:1 Playful Editorial Hero Section:**
+   - Bold uppercase headline with an inline neon-lime arrow pill `[ → ]`.
+   - Continuous spinning 8-arm blue asterisk and glowing 4-point lime sparkle ornaments.
+   - Animated count-up metrics for **2.4K+ Members** and **500+ Lab Simulations**.
+   - Interactive `Join us ↗` and `Contact Us ↗` trigger buttons.
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+3. **5-Card Vertical Staggered Showcase:**
+   - 5 rounded cards with staggered heights (center card is tallest, adjacent tall, outer medium).
+   - Distinct alternating colorway: **Blue ➔ Black ➔ Blue ➔ Black ➔ Blue**.
+   - Custom vector illustrations (Logic blocks, Pen probe, Student avatar with laptop, Tool palette, and Syntax box) with smooth hover-lift effects.
 
-## Agentic Development
+4. **Dynamic "Our Classes" Bento Cards:**
+   - Data fetched directly from MySQL `learning_paths` and `lab_modules` tables.
+   - 3 Curated Classes:
+     - **Beginner Class:** Logic & Basic Coding
+     - **Expert Class (Featured Default):** Network & Packet Routing
+     - **Pro Class:** Cyber & Algorithm Lab
+   - Alpine.js dynamic hover state: middle card active by default (electric blue background, white text, neon lime arrow button), switching automatically to whichever card is hovered.
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+5. **Interactive Mini-Lab Simulators (Modal):**
+   - **Network Packet Simulator:** Visualizes packet flow across `PC (192.168.1.10) ➔ Switch Lab ➔ Gateway Router (10.0.0.1) ➔ Cloud Server (104.21.55.2)`. Features a live packet transmission progress bar, realistic terminal log, latency calculation (ms), and `+25 XP` reward synced to MySQL.
+   - **Logic Block Puzzle:** Drag-and-click logic block builder (`[REPEAT 3X] ➔ [MOVE_FORWARD] ➔ [SEND_DATA]`) with syntax validation and `+50 XP` reward.
+   - **Caesar Cipher Decoder:** Real-time key shift slider decoding ciphertext into `CODECRAFT` with `+40 XP` reward.
 
+---
+
+## 🗄️ Database Architecture (MySQL)
+
+- `users`: Stores user profile, `xp`, `level`, `streak_days`, and authentication tokens.
+- `learning_paths`: Stores syllabus paths, metadata, featured flags, and preview types.
+- `lab_modules`: Stores interactive simulator modules, difficulties, initial configs, and XP rewards.
+- `user_progress`: Audit logs of student module completions, scores, earned XP, and telemetry (latency, hops, solution keys).
+
+---
+
+## 🚀 Getting Started with XAMPP (Local Environment)
+
+### Prerequisites
+- **XAMPP** (Apache & MySQL running on default port `3306`).
+- **PHP 8.2+** with `pdo_mysql` extension enabled.
+- **Composer**.
+
+### Installation Steps
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/radeckopratama1-dot/CodeCraft.git
+   cd CodeCraft
+   ```
+
+2. **Ensure MySQL is running in XAMPP:**
+   Make sure the MySQL module in the XAMPP Control Panel is started (green). Default credentials:
+   - Host: `127.0.0.1`
+   - Port: `3306`
+   - User: `root`
+   - Password: `(blank)`
+
+3. **Configure Environment:**
+   Ensure `.env` matches your XAMPP configuration:
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=codecraft_db
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
+
+4. **Install Dependencies (if not already installed):**
+   ```bash
+   composer install
+   ```
+
+5. **Run Migrations & Seeders:**
+   ```bash
+   php artisan migrate:fresh --seed
+   ```
+   *(If your default system PHP points to a non-functional installation, use XAMPP PHP explicitly: `C:\xampp\php\php.exe artisan migrate:fresh --seed`)*
+
+6. **Start the Laravel Development Server:**
+   ```bash
+   php artisan serve
+   ```
+   Open your browser and navigate to: `http://127.0.0.1:8000`
+
+---
+
+## 🧪 Running Automated Tests
+
+Run the built-in test suite to verify routing, blade compilation, and asynchronous XP sync:
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+php artisan test --filter=LabTest
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+---
 
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 📄 License
+Open-source under the [MIT License](LICENSE). Developed for SMP Computer Science & Informatics Education.
