@@ -92,12 +92,7 @@
           initialStreak: {{ $currentUser->streak_days ?? 7 }}
       })">
 
-    <!-- Top Notification / Status Banner (Optional Minimalist Ribbon) -->
-    <div class="bg-brand-dark text-white text-[12px] font-medium py-1.5 px-4 text-center tracking-wider flex items-center justify-center gap-2">
-        <span class="inline-block w-2 h-2 rounded-full bg-brand-lime animate-ping"></span>
-        <span>MODUL INTERAKTIF LAB JARINGAN & LOGIKA KODING SMP TERVERIFIKASI AKTIF</span>
-        <span class="text-brand-lime font-mono ml-2">MySQL XAMPP CONNECTED</span>
-    </div>
+
 
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 bg-editorial-grain">
 
