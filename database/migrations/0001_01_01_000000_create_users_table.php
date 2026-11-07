@@ -14,13 +14,15 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('username')->nullable()->unique();
             $table->string('email')->unique();
+            $table->string('grade_level')->default('Kelas 8');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->unsignedInteger('xp')->default(1250);
-            $table->unsignedInteger('level')->default(4);
-            $table->unsignedInteger('streak_days')->default(5);
-            $table->string('avatar')->nullable();
+            $table->unsignedInteger('xp')->default(0);
+            $table->unsignedInteger('level')->default(1);
+            $table->unsignedInteger('streak_days')->default(1);
+            $table->string('avatar')->default('cyber-bot');
             $table->rememberToken();
             $table->timestamps();
         });

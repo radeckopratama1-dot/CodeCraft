@@ -21,11 +21,13 @@ class DatabaseSeeder extends Seeder
             ['email' => 'siswa@codecraft.test'],
             [
                 'name' => 'Rafi Pratama (Siswa SMP)',
+                'username' => 'siswa_demo',
+                'grade_level' => 'Kelas 8',
                 'password' => Hash::make('password123'),
                 'xp' => 1250,
                 'level' => 4,
                 'streak_days' => 7,
-                'avatar' => 'https://api.dicebear.com/7.x/bottts/svg?seed=CodeCraftRafi',
+                'avatar' => 'cyber-bot',
             ]
         );
 

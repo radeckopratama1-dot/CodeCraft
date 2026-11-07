@@ -15,7 +15,9 @@ class User extends Authenticatable
 
     protected $fillable = [
         'name',
+        'username',
         'email',
+        'grade_level',
         'password',
         'xp',
         'level',
@@ -42,6 +44,19 @@ class User extends Authenticatable
     public function userProgress(): HasMany
     {
         return $this->hasMany(UserProgress::class);
+    }
+
+    public function getAvatarUrlAttribute(): string
+    {
+        $avatarKey = $this->avatar ?? 'cyber-bot';
+        $seeds = [
+            'cyber-bot' => 'CodeCraftBot',
+            'code-wizard' => 'WizardCraft',
+            'network-ninja' => 'NinjaRoute',
+            'pixel-hero' => 'PixelSMP',
+        ];
+        $seed = $seeds[$avatarKey] ?? ($this->name ?? 'Student');
+        return "https://api.dicebear.com/7.x/bottts/svg?seed={$seed}";
     }
 
     /**
