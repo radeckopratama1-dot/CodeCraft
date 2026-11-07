@@ -140,3 +140,4 @@ class AuthController extends Controller
         return redirect()->route('home')->with('info', 'Kamu telah keluar dari akun CodeCraft.');
     }
 }
+
