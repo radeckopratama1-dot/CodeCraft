@@ -7,7 +7,9 @@ use App\Models\LearningPath;
 use App\Models\User;
 use App\Models\UserProgress;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class LabController extends Controller
@@ -15,33 +17,44 @@ class LabController extends Controller
     /**
      * Display the main CodeCraft landing page with MySQL data.
      */
-    public function index(): View
+    public function index(Request $request): View
     {
-        // 1. Fetch Demo Student User
-        $user = User::first();
-        if (!$user) {
-            $user = User::create([
-                'name' => 'Rafi Pratama (Siswa SMP)',
-                'email' => 'siswa@codecraft.test',
-                'password' => bcrypt('password123'),
-                'xp' => 1250,
-                'level' => 4,
-                'streak_days' => 7,
-            ]);
-        }
+        // Get authenticated student user if logged in
+        $user = Auth::user();
 
-        // 2. Fetch Learning Paths with their Lab Modules
+        // Fetch Learning Paths with their Lab Modules
         $learningPaths = LearningPath::with(['labModules' => function ($q) {
             $q->where('is_active', true)->orderBy('order');
         }])->get();
 
-        // 3. Fetch User Progresses
-        $userProgress = UserProgress::with('labModule')
-            ->where('user_id', $user->id)
-            ->latest()
-            ->get();
+        // Fetch User Progress if user is authenticated
+        $userProgress = $user
+            ? UserProgress::with('labModule')
+                ->where('user_id', $user->id)
+                ->latest()
+                ->get()
+            : collect();
 
-        return view('welcome', compact('user', 'learningPaths', 'userProgress'));
+        $openLab = $request->query('open_lab');
+
+        return view('welcome', compact('user', 'learningPaths', 'userProgress', 'openLab'));
+    }
+
+    /**
+     * Redirect to classes section for authenticated students.
+     */
+    public function classes(): RedirectResponse
+    {
+        return redirect('/#classes');
+    }
+
+    /**
+     * Open interactive lab for authenticated students.
+     */
+    public function lab(Request $request): RedirectResponse
+    {
+        $type = $request->query('type', 'network');
+        return redirect()->route('home', ['open_lab' => $type]);
     }
 
     /**
@@ -55,9 +68,12 @@ class LabController extends Controller
             'metadata' => 'nullable|array',
         ]);
 
-        $user = User::first();
+        $user = Auth::user();
         if (!$user) {
-            return response()->json(['success' => false, 'message' => 'No active user found'], 404);
+            return response()->json([
+                'success' => false,
+                'message' => 'Silakan login terlebih dahulu untuk menyimpan XP.',
+            ], 401);
         }
 
         $module = LabModule::where('slug', $validated['module_slug'])->first();
@@ -86,9 +102,9 @@ class LabController extends Controller
             'new_level' => $user->level,
             'user' => [
                 'name' => $user->name,
+                'grade_level' => $user->grade_level,
                 'streak_days' => $user->streak_days,
             ],
         ]);
     }
 }
-

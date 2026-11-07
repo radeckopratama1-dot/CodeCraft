@@ -81,18 +81,39 @@
 </head>
 
 @php
-    $currentUser = $user ?? \App\Models\User::first();
+    $currentUser = Auth::user();
     $paths = $learningPaths ?? \App\Models\LearningPath::with('labModules')->get();
 @endphp
 
 <body class="bg-brand-bg min-h-screen text-brand-dark selection:bg-brand-lime selection:text-brand-dark" 
       x-data="codecraftApp({
-          initialXp: {{ $currentUser->xp ?? 1250 }},
-          initialLevel: {{ $currentUser->level ?? 4 }},
-          initialStreak: {{ $currentUser->streak_days ?? 7 }}
+          isAuthenticated: {{ Auth::check() ? 'true' : 'false' }},
+          initialXp: {{ $currentUser->xp ?? 0 }},
+          initialLevel: {{ $currentUser->level ?? 1 }},
+          initialStreak: {{ $currentUser->streak_days ?? 1 }},
+          openLabOnLoad: '{{ $openLab ?? '' }}'
       })">
 
+    @if(session('success'))
+        <div class="max-w-4xl mx-auto mt-4 px-4">
+            <div class="p-3.5 bg-green-50 border border-green-200 text-green-800 rounded-2xl flex items-center justify-between gap-2 text-xs font-bold shadow-sm">
+                <div class="flex items-center gap-2">
+                    <span class="text-base">🎉</span>
+                    <span>{{ session('success') }}</span>
+                </div>
+                <span class="text-[10px] font-mono text-green-600 bg-green-100 px-2 py-0.5 rounded-full">TERVERIFIKASI</span>
+            </div>
+        </div>
+    @endif
 
+    @if(session('info'))
+        <div class="max-w-4xl mx-auto mt-4 px-4">
+            <div class="p-3.5 bg-blue-50 border border-blue-200 text-blue-800 rounded-2xl flex items-center gap-2 text-xs font-bold shadow-sm">
+                <span class="text-base">ℹ️</span>
+                <span>{{ session('info') }}</span>
+            </div>
+        </div>
+    @endif
 
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 bg-editorial-grain">
 
@@ -102,8 +123,8 @@
         <header class="border-b border-black/10 pb-5 mb-8 sm:mb-12">
             <nav class="flex items-center justify-between">
                 <!-- Left Nav Links -->
-                <div class="flex items-center space-x-6 sm:space-x-10 text-[13px] font-semibold tracking-wider text-brand-dark">
-                    <a href="#home" class="hover:text-brand-blue transition-colors uppercase">HOME</a>
+                <div class="flex items-center space-x-5 sm:space-x-8 text-[13px] font-semibold tracking-wider text-brand-dark">
+                    <a href="{{ route('home') }}" class="hover:text-brand-blue transition-colors uppercase">HOME</a>
                     <a href="#labs" class="hover:text-brand-blue transition-colors uppercase flex items-center gap-1.5">
                         STORE/LABS
                         <span class="text-[9px] bg-brand-lime text-brand-dark font-extrabold px-1.5 py-0.5 rounded-full">NEW</span>
@@ -119,28 +140,60 @@
                     <span class="font-display font-extrabold text-base tracking-tight hidden sm:inline-block">CodeCraft</span>
                 </div>
 
-                <!-- Right Nav Links & Floating User XP Pill -->
-                <div class="flex items-center space-x-3 sm:space-x-6">
+                <!-- Right Nav Links & Floating User XP Pill / Auth Buttons -->
+                <div class="flex items-center space-x-2 sm:space-x-4">
                     <a href="#classes" class="hover:text-brand-blue transition-colors uppercase text-[13px] font-semibold tracking-wider hidden sm:inline-block">CLASS</a>
                     
-                    <!-- Dynamic Live MySQL XP & Level Badge -->
-                    <div class="flex items-center gap-2 bg-white/90 backdrop-blur-sm border border-black/10 rounded-full py-1.5 px-3.5 shadow-sm text-xs font-semibold">
-                        <div class="w-6 h-6 rounded-full bg-brand-blue text-brand-lime flex items-center justify-center font-bold text-[11px]">
-                            L<span x-text="level"></span>
+                    @auth
+                        <!-- Dynamic Live MySQL XP & Level Badge for Logged In Student -->
+                        <div class="flex items-center gap-2 bg-white/95 backdrop-blur-sm border border-black/10 rounded-full py-1.5 px-3 sm:px-3.5 shadow-sm text-xs font-semibold">
+                            <!-- Avatar icon -->
+                            <div class="w-6 h-6 rounded-full bg-brand-blue text-brand-lime flex items-center justify-center font-bold text-xs shadow-sm">
+                                @if(Auth::user()->avatar === 'cyber-bot') 🤖
+                                @elseif(Auth::user()->avatar === 'code-wizard') 🧙‍♂️
+                                @elseif(Auth::user()->avatar === 'network-ninja') 🥷
+                                @elseif(Auth::user()->avatar === 'pixel-hero') 👾
+                                @else 💻
+                                @endif
+                            </div>
+                            <div class="flex flex-col text-left leading-tight hidden xs:flex">
+                                <span class="text-[10px] text-gray-800 font-bold max-w-[90px] truncate">{{ Auth::user()->name }}</span>
+                                <span class="text-[9px] text-brand-blue font-mono">{{ Auth::user()->grade_level ?? 'Kelas 8' }}</span>
+                            </div>
+                            <div class="h-4 w-px bg-black/10 mx-0.5"></div>
+                            <div class="flex flex-col text-left leading-tight">
+                                <span class="text-[9px] text-gray-500 font-medium">L<span x-text="level"></span></span>
+                                <span class="font-bold text-brand-dark font-mono text-[11px]">
+                                    <span x-text="xp.toLocaleString()"></span> XP
+                                </span>
+                            </div>
+                            <span class="text-orange-500 text-xs ml-0.5" title="Daily Streak">🔥 <span x-text="streak"></span>d</span>
                         </div>
-                        <div class="flex flex-col text-left leading-tight">
-                            <span class="text-[10px] text-gray-500 font-medium">Siswa SMP</span>
-                            <span class="font-bold text-brand-dark font-mono text-[12px]">
-                                <span x-text="xp.toLocaleString()"></span> XP
-                            </span>
-                        </div>
-                        <span class="text-orange-500 text-xs ml-0.5" title="Daily Streak">🔥 <span x-text="streak"></span>d</span>
-                    </div>
 
-                    <!-- Contact Us / Join Pill Button -->
+                        <!-- Logout Button -->
+                        <form action="{{ route('logout') }}" method="POST" class="inline">
+                            @csrf
+                            <button type="submit" 
+                                    class="border border-black/20 hover:border-red-500 hover:text-red-600 rounded-full px-3 py-1.5 text-[11px] font-bold font-mono transition-colors">
+                                LOGOUT
+                            </button>
+                        </form>
+                    @endauth
+
+                    @guest
+                        <!-- Login / Join Pill Button for Guests -->
+                        <a href="{{ route('login') }}" 
+                           class="inline-flex items-center gap-1.5 bg-brand-dark text-white rounded-full px-4 sm:px-5 py-2 text-[12px] sm:text-[13px] font-bold tracking-wide hover:bg-brand-lime hover:text-brand-dark hover:shadow-glow-lime transition-all duration-200 shadow-sm">
+                            <span>LOGIN / JOIN</span>
+                            <span class="text-sm">↗</span>
+                        </a>
+                    @endguest
+
+                    <!-- Contact Us Pill Button -->
                     <button @click="openModal('contact')" 
-                            class="inline-flex items-center gap-1.5 border border-black/25 rounded-full px-4 sm:px-5 py-2 text-[12px] sm:text-[13px] font-bold tracking-wide hover:bg-brand-dark hover:text-white transition-all duration-200">
-                        <span>CONTACT US</span>
+                            class="inline-flex items-center gap-1.5 border border-black/25 rounded-full px-3.5 sm:px-4 py-2 text-[12px] sm:text-[13px] font-bold tracking-wide hover:bg-brand-surface transition-all duration-200">
+                        <span class="hidden sm:inline">CONTACT US</span>
+                        <span class="sm:hidden">INFO</span>
                         <span class="text-sm">↗</span>
                     </button>
                 </div>
@@ -209,11 +262,19 @@
 
                 <!-- Right: Join Us Pill Button -->
                 <div>
-                    <a href="#classes" 
-                       class="inline-flex items-center gap-2 bg-brand-lime text-brand-dark font-display font-bold text-sm sm:text-base px-6 py-3 rounded-full hover:bg-[#c3f01f] hover:shadow-glow-lime transition-all duration-300 hover:-translate-y-0.5">
-                        <span>Join us</span>
-                        <span class="w-6 h-6 rounded-full bg-brand-dark text-brand-lime flex items-center justify-center text-xs font-bold">↗</span>
-                    </a>
+                    @guest
+                        <a href="{{ route('register') }}" 
+                           class="inline-flex items-center gap-2 bg-brand-lime text-brand-dark font-display font-bold text-sm sm:text-base px-6 py-3 rounded-full hover:bg-[#c3f01f] hover:shadow-glow-lime transition-all duration-300 hover:-translate-y-0.5">
+                            <span>Join us</span>
+                            <span class="w-6 h-6 rounded-full bg-brand-dark text-brand-lime flex items-center justify-center text-xs font-bold">↗</span>
+                        </a>
+                    @else
+                        <a href="#classes" 
+                           class="inline-flex items-center gap-2 bg-brand-lime text-brand-dark font-display font-bold text-sm sm:text-base px-6 py-3 rounded-full hover:bg-[#c3f01f] hover:shadow-glow-lime transition-all duration-300 hover:-translate-y-0.5">
+                            <span>Mulai Praktikum</span>
+                            <span class="w-6 h-6 rounded-full bg-brand-dark text-brand-lime flex items-center justify-center text-xs font-bold">↓</span>
+                        </a>
+                    @endguest
                 </div>
             </div>
 
@@ -814,11 +875,19 @@
     <script>
         function codecraftApp(config) {
             return {
-                xp: config.initialXp || 1250,
-                level: config.initialLevel || 4,
-                streak: config.initialStreak || 7,
+                isAuthenticated: config.isAuthenticated || false,
+                xp: config.initialXp || 0,
+                level: config.initialLevel || 1,
+                streak: config.initialStreak || 1,
                 modalOpen: false,
                 activeLabType: 'network',
+                openLabOnLoad: config.openLabOnLoad || '',
+
+                init() {
+                    if (this.openLabOnLoad && this.isAuthenticated) {
+                        this.openModal(this.openLabOnLoad);
+                    }
+                },
                 
                 // Network Simulator State
                 pingStep: 0,
@@ -840,6 +909,11 @@
                 },
 
                 startLab(type) {
+                    if (!this.isAuthenticated) {
+                        // Redirect to protected route /classes so auth middleware catches it and flashes warning
+                        window.location.href = "{{ route('classes') }}";
+                        return;
+                    }
                     this.openModal(type);
                 },
 
