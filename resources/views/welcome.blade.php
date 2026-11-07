@@ -558,16 +558,16 @@
                         UNTIL YOU FIND YOUR OWN <span class="text-brand-blue">AUDIENCE.</span>
                     </h3>
 
-                    <!-- Quote Author -->
+                    <!-- Quote Author / Attribution -->
                     <div class="mt-4">
-                        <p class="font-bold text-sm text-brand-dark">Defri Muhammad Fahrul Habiebi</p>
-                        <p class="text-xs text-gray-500 font-medium">Ruang Edit Founder & CodeCraft Mentor</p>
+                        <p class="font-bold text-sm text-brand-dark">Inovasi Mahasiswa STT WASTUKANCANA</p>
+                        <p class="text-xs text-gray-500 font-medium">Laboratorium Interaktif Koding & Jaringan Komputer SMP</p>
                     </div>
 
                     <!-- Footer Divider -->
                     <div class="mt-16 pt-6 border-t border-black/10 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 font-medium gap-2">
-                        <div>Copyright RE Production • CodeCraft SMP Lab</div>
-                        <div>Vivi Alfiani · 2024</div>
+                        <div>Copyright &copy; CodeCraft • Inovasi Mahasiswa STT WASTUKANCANA</div>
+                        <div>STT WASTUKANCANA · 2024 - 2026</div>
                     </div>
 
                 </div>
@@ -614,7 +614,7 @@
                             <input type="text" value="guru-tik@codecraft.id" class="w-full px-4 py-2.5 rounded-xl border border-black/15 bg-white text-sm" readonly>
                         </div>
                         <div class="p-4 bg-brand-blue/10 rounded-xl border border-brand-blue/20 text-xs text-brand-blue leading-relaxed">
-                            💡 Lab interaktif ini siap diakses untuk praktikum TIK / Informatika Kurikulum Merdeka tingkat SMP.
+                            💡 Lab interaktif ini dikembangkan sebagai karya inovasi mahasiswa STT WASTUKANCANA untuk mendukung praktikum TIK / Informatika Kurikulum Merdeka tingkat SMP.
                         </div>
                     </div>
                 </div>

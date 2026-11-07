@@ -47,3 +47,4 @@ class LabModule extends Model
         return $this->hasMany(UserProgress::class);
     }
 }
+

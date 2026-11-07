@@ -1,7 +1,8 @@
 # CodeCraft ⚡ 
 ### Web-Based Interactive Coding & Computer Network Lab for Junior High Students (SMP)
+**Inovasi Karya Mahasiswa STT WASTUKANCANA**
 
-CodeCraft is an interactive educational web platform engineered for junior high school students (SMP) to learn basic programming logic and computer networking concepts (TCP/IP, routing, and packets). Built with **Laravel**, **MySQL (XAMPP)**, **Tailwind CSS**, and **Alpine.js**, it features a 1:1 playful editorial/bento design interface inspired by modern creative learning standards.
+CodeCraft is an interactive educational web platform engineered for junior high school students (SMP) to learn basic programming logic and computer networking concepts (TCP/IP, routing, and packets). Developed as an innovation project by students of **STT WASTUKANCANA**, it is built with **Laravel**, **MySQL (XAMPP)**, **Tailwind CSS**, and **Alpine.js**, featuring a playful editorial/bento design interface inspired by modern creative learning standards.
 
 ---
 

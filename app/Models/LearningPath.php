@@ -38,3 +38,4 @@ class LearningPath extends Model
         return $this->hasMany(LabModule::class)->orderBy('order');
     }
 }
+
